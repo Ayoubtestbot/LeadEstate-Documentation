@@ -36,6 +36,12 @@ LeadEstate is a comprehensive real estate platform that enables owners to create
 - [API Architecture](docs/architecture/api-architecture.md)
 - [Security Model](docs/architecture/security.md)
 
+### 📡 API Documentation
+- **[📚 Complete API Reference](docs/api/API_REFERENCE.md)** - Comprehensive API documentation with examples
+- **[🌐 Interactive API Explorer](docs/api/swagger-ui.html)** - Swagger UI for testing endpoints
+- **[📄 OpenAPI Specification](docs/api/swagger.yaml)** - Machine-readable API specification
+- **[🔗 Production API](https://leadestate-backend-9fih.onrender.com/api)** - Live API endpoint
+
 ### 📊 Owner Dashboard
 - [Owner Dashboard Setup](docs/owner-dashboard/setup.md)
 - [Agency Management](docs/owner-dashboard/agency-management.md)

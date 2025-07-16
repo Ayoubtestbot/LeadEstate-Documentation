@@ -1,0 +1,556 @@
+openapi: 3.0.3
+info:
+  title: LeadEstate API
+  description: |
+    Complete API documentation for LeadEstate - A comprehensive real estate CRM platform.
+    
+    ## Features
+    - 📋 Lead Management
+    - 🏠 Property Management  
+    - 👥 Team Management
+    - 📱 WhatsApp Integration
+    - 📊 Analytics & Dashboard
+    - 🏢 Multi-tenant Owner Dashboard
+    
+  version: 2.0.0
+  contact:
+    name: LeadEstate Support
+    email: support@leadestate.com
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: https://leadestate-backend-9fih.onrender.com/api
+    description: Production API Server
+  - url: http://localhost:3001/api
+    description: Development Server
+
+security:
+  - BearerAuth: []
+  - OwnerApiKey: []
+
+paths:
+  /leads:
+    get:
+      tags:
+        - Leads
+      summary: Get all leads
+      description: Retrieve leads with optional filtering and pagination
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 100
+            maximum: 1000
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            default: 0
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [new, contacted, qualified, proposal, negotiation, closed_won, closed_lost]
+        - name: assignedTo
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Lead'
+    
+    post:
+      tags:
+        - Leads
+      summary: Create a new lead
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateLeadRequest'
+      responses:
+        '201':
+          description: Lead created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    $ref: '#/components/schemas/Lead'
+
+  /leads/{id}:
+    get:
+      tags:
+        - Leads
+      summary: Get lead by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Lead found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    $ref: '#/components/schemas/Lead'
+    
+    put:
+      tags:
+        - Leads
+      summary: Update lead
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateLeadRequest'
+      responses:
+        '200':
+          description: Lead updated successfully
+
+    delete:
+      tags:
+        - Leads
+      summary: Delete lead
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Lead deleted successfully
+
+  /properties:
+    get:
+      tags:
+        - Properties
+      summary: Get all properties
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [available, sold, pending, off_market]
+        - name: type
+          in: query
+          schema:
+            type: string
+            enum: [house, apartment, condo, townhouse, land, commercial]
+        - name: minPrice
+          in: query
+          schema:
+            type: number
+        - name: maxPrice
+          in: query
+          schema:
+            type: number
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Property'
+
+    post:
+      tags:
+        - Properties
+      summary: Create a new property
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePropertyRequest'
+      responses:
+        '201':
+          description: Property created successfully
+
+  /whatsapp/welcome/{leadId}:
+    post:
+      tags:
+        - WhatsApp
+      summary: Send WhatsApp welcome message
+      parameters:
+        - name: leadId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: WhatsApp message sent successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    $ref: '#/components/schemas/WhatsAppResponse'
+
+  /dashboard/all-data:
+    get:
+      tags:
+        - Dashboard
+      summary: Get comprehensive dashboard data
+      responses:
+        '200':
+          description: Dashboard data retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    $ref: '#/components/schemas/DashboardData'
+
+  /team:
+    get:
+      tags:
+        - Team
+      summary: Get all team members
+      responses:
+        '200':
+          description: Team members retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/TeamMember'
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    OwnerApiKey:
+      type: apiKey
+      in: header
+      name: x-owner-api-key
+
+  schemas:
+    Lead:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        first_name:
+          type: string
+        last_name:
+          type: string
+        email:
+          type: string
+          format: email
+        phone:
+          type: string
+        status:
+          type: string
+          enum: [new, contacted, qualified, proposal, negotiation, closed_won, closed_lost]
+        assigned_to:
+          type: string
+        language:
+          type: string
+          enum: [en, fr]
+        source:
+          type: string
+        budget:
+          type: number
+        notes:
+          type: string
+        interested_properties:
+          type: array
+          items:
+            type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+    CreateLeadRequest:
+      type: object
+      required:
+        - first_name
+        - last_name
+        - email
+        - phone
+      properties:
+        first_name:
+          type: string
+        last_name:
+          type: string
+        email:
+          type: string
+          format: email
+        phone:
+          type: string
+        source:
+          type: string
+        budget:
+          type: number
+        notes:
+          type: string
+        assignedTo:
+          type: string
+        language:
+          type: string
+          enum: [en, fr]
+
+    UpdateLeadRequest:
+      type: object
+      properties:
+        first_name:
+          type: string
+        last_name:
+          type: string
+        email:
+          type: string
+          format: email
+        phone:
+          type: string
+        status:
+          type: string
+        assigned_to:
+          type: string
+        notes:
+          type: string
+
+    Property:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+        description:
+          type: string
+        price:
+          type: number
+        type:
+          type: string
+          enum: [house, apartment, condo, townhouse, land, commercial]
+        status:
+          type: string
+          enum: [available, sold, pending, off_market]
+        bedrooms:
+          type: integer
+        bathrooms:
+          type: integer
+        area:
+          type: number
+        address:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        zipCode:
+          type: string
+        image_url:
+          type: string
+          format: uri
+        images:
+          type: array
+          items:
+            type: string
+            format: uri
+        created_at:
+          type: string
+          format: date-time
+
+    CreatePropertyRequest:
+      type: object
+      required:
+        - title
+        - price
+        - type
+        - city
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        price:
+          type: number
+        type:
+          type: string
+        bedrooms:
+          type: integer
+        bathrooms:
+          type: integer
+        area:
+          type: number
+        address:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        zipCode:
+          type: string
+        image_url:
+          type: string
+          format: uri
+        images:
+          type: array
+          items:
+            type: string
+            format: uri
+
+    TeamMember:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        phone:
+          type: string
+        role:
+          type: string
+          enum: [manager, agent, admin]
+        department:
+          type: string
+        status:
+          type: string
+          enum: [active, inactive]
+        joined_at:
+          type: string
+          format: date-time
+
+    WhatsAppResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        method:
+          type: string
+        messageSid:
+          type: string
+        status:
+          type: string
+        agent:
+          type: string
+        leadName:
+          type: string
+        phoneNumber:
+          type: string
+        whatsappUrl:
+          type: string
+          format: uri
+
+    DashboardData:
+      type: object
+      properties:
+        leads:
+          type: array
+          items:
+            $ref: '#/components/schemas/Lead'
+        properties:
+          type: array
+          items:
+            $ref: '#/components/schemas/Property'
+        team:
+          type: array
+          items:
+            $ref: '#/components/schemas/TeamMember'
+        stats:
+          type: object
+          properties:
+            totalLeads:
+              type: integer
+            availableProperties:
+              type: integer
+            conversionRate:
+              type: string
+            closedWonLeads:
+              type: integer
+
+    Error:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        message:
+          type: string
+        error:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+
+tags:
+  - name: Leads
+    description: Lead management operations
+  - name: Properties
+    description: Property management operations
+  - name: Team
+    description: Team member management
+  - name: WhatsApp
+    description: WhatsApp integration and messaging
+  - name: Dashboard
+    description: Dashboard and analytics data
