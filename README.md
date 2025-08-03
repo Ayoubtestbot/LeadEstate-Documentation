@@ -16,6 +16,8 @@ LeadEstate is a comprehensive real estate platform that enables owners to create
 - ✅ **Automated Agency Creation** - One-click agency setup with GitHub repos
 - ✅ **Complete CRM System** - Lead management, notes, assignment history
 - ✅ **Premium Analytics** - Real-time performance tracking with 10x faster loading
+- ✅ **Agent Analytics Dashboard** - Personal performance metrics and insights for individual agents
+- ✅ **Enhanced Lead Pipeline** - New "Relance" status for improved lead tracking workflow
 - ✅ **WhatsApp Integration** - PDF brochures, automated notifications, multi-provider support
 - ✅ **Multi-Language Support** - International real estate operations with RTL support
 - ✅ **Performance Optimized** - Handles 10,000+ leads with sub-3-second loading
@@ -24,6 +26,7 @@ LeadEstate is a comprehensive real estate platform that enables owners to create
 - ✅ **Real-Time Data** - Live updates, comprehensive KPIs, interactive charts
 - ✅ **Professional PDFs** - Property brochures with images and agency branding
 - ✅ **Advanced Search** - AI-powered lead filtering and kanban views
+- ✅ **Smart Alerts** - Automated lead attention notifications with time-based rules
 
 ## 📚 Documentation Structure
 
@@ -63,6 +66,16 @@ LeadEstate is a comprehensive real estate platform that enables owners to create
 - [Revenue Analytics](docs/analytics/revenue-analytics.md)
 - [Export & Reporting](docs/analytics/export-reporting.md)
 
+### 👤 Agent Analytics Dashboard
+- [Agent Analytics Overview](docs/agent-analytics/overview.md)
+- [Personal Performance Metrics](docs/agent-analytics/personal-metrics.md)
+- [Needs Attention System](docs/agent-analytics/needs-attention.md)
+- [Daily Activity Tracking](docs/agent-analytics/daily-activity.md)
+- [Status Distribution Analysis](docs/agent-analytics/status-distribution.md)
+- [Source Performance Insights](docs/agent-analytics/source-performance.md)
+- [Monthly Trends Visualization](docs/agent-analytics/monthly-trends.md)
+- [Contact & Conversion Rates](docs/agent-analytics/conversion-rates.md)
+
 ### 🏢 Agency CRM System
 - [Agency CRM Overview](docs/agency-crm/overview.md)
 - [Lead Management System](docs/agency-crm/lead-management.md)
@@ -71,6 +84,14 @@ LeadEstate is a comprehensive real estate platform that enables owners to create
 - [Premium Analytics Dashboard](docs/agency-crm/analytics.md)
 - [Team Management](docs/agency-crm/team-management.md)
 - [Property Management](docs/agency-crm/property-management.md)
+
+### 📋 Lead Management Features
+- [Lead Pipeline Overview](docs/lead-management/pipeline-overview.md)
+- [Relance Status Guide](docs/lead-management/relance-status.md)
+- [Status Workflow Management](docs/lead-management/status-workflow.md)
+- [Lead Assignment System](docs/lead-management/assignment-system.md)
+- [Follow-up Automation](docs/lead-management/follow-up-automation.md)
+- [Lead Scoring & Qualification](docs/lead-management/lead-scoring.md)
 
 ### 📱 WhatsApp Integration
 - [WhatsApp Business Setup](docs/whatsapp/business-setup.md)
@@ -212,6 +233,36 @@ When a new agency is created through the Owner Dashboard:
 
 ## 🆕 Latest Updates & Features
 
+### **🎯 Recently Implemented (January 2025)**
+
+#### **✅ Enhanced Lead Pipeline Management**
+- **New "Relance" Status**: Added between "Contacted" and "Qualified" for better lead tracking
+- **Complete Status Flow**: New → Contacted → Relance → Qualified → Proposal → Negotiation → Closed Won/Lost
+- **Visual Design**: Amber color scheme with RotateCcw icon for relance status
+- **System-Wide Integration**: Updated all components (Kanban, EditModal, ViewModal, RecentLeads)
+- **Backend Support**: Full API support for the new status in lead management
+
+#### **✅ Agent Analytics Dashboard**
+- **Personal Performance Metrics**: Individual agent analytics with personalized insights
+- **Key Performance Indicators**: Total leads, contact rate, conversion rate, avg response time
+- **Needs Attention Alerts**: Smart detection of leads requiring immediate follow-up
+- **Interactive Charts**: Daily activity, status distribution, monthly trends, source performance
+- **Compact UI Design**: Optimized for scalability with many leads
+- **Time-Based Rules**: Automated alerts for leads older than 24h (new), 48h (contacted), 72h (relance)
+- **Performance Summary**: Visual breakdown of contacted, qualified, and closed leads
+
+#### **✅ Dashboard Data Accuracy Fixes**
+- **Properties Count Fix**: Resolved issue showing 0 properties despite having data
+- **Direct API Loading**: Fallback mechanism when context data is empty
+- **Real-Time Metrics**: Accurate dashboard statistics with live data
+- **Smart Data Loading**: Uses same approach as Properties page for reliability
+
+#### **✅ User Interface Enhancements**
+- **Improved Dropdown Styling**: Better visibility with white background and proper contrast
+- **Compact Attention Alerts**: Scrollable list design preventing UI overflow
+- **Enhanced Data Visualization**: Fallback data distribution for better chart visualization
+- **Responsive Design**: Optimized layouts for all screen sizes
+
 ### **🎯 Recently Implemented (December 2024)**
 
 #### **✅ Complete Lead Management System**
@@ -339,6 +390,14 @@ npm install && npm run dev
 - **File Management**: Multer with cloud storage integration
 
 ## 🏆 Technical Achievements
+
+### **Latest Improvements (January 2025)**
+- **Agent Analytics Implementation**: Complete personal analytics dashboard for individual agents
+- **Enhanced Lead Pipeline**: New "Relance" status with system-wide integration
+- **Data Accuracy Fixes**: Resolved dashboard properties count and metrics accuracy
+- **UI/UX Enhancements**: Improved dropdown styling, compact alert design, responsive layouts
+- **Smart Alert System**: Time-based lead attention notifications with automated rules
+- **Performance Optimization**: Enhanced chart visualization with fallback data distribution
 
 ### **Performance Breakthroughs (December 2024)**
 - **10x Speed Improvement**: Analytics page load time reduced from 30+ seconds to 3 seconds
